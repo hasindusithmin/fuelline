@@ -6,6 +6,7 @@ import stations from "../../public/stations.json"
 import autoComplete from "@tarekraafat/autocomplete.js"
 import { useEffect, useState } from "react"
 import validator from "validator"
+import Link from "next/link"
 export default function VehicleOwner() {
 
     const [PROVINCE,setPROVINCE] = useState('');
@@ -105,7 +106,7 @@ export default function VehicleOwner() {
 
             <Navbar />
 
-            <Header where="Signup>VehicleOwner" />
+            <Header where={<><Link href="/">home</Link>➤<Link href="/signup">signup</Link>➤<Link href="/signup/vehicle-owner">vehicle-owner</Link></>} />
 
             <div className="w3-content w3-padding">
                 <div className="w3-center w3-padding-large w3-margin-bottom w3-card-4 w3-round-xlarge">

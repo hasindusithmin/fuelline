@@ -4,6 +4,7 @@ import Header from "../../components/Header"
 import Footer from "../../components/Footer"
 import validator from "validator"
 import { useState } from "react"
+import Link from "next/link"
 export default function VehicleOwner() {
 
     const [EMAIL,SETEMAIL] = useState('')
@@ -45,7 +46,7 @@ export default function VehicleOwner() {
 
             <Navbar />
 
-            <Header where="Login>VehicleOwner" />
+            <Header where={<><Link href="/">home</Link>➤<Link href="/login">login</Link>➤<Link href="/login/vehicle-owner">vehicle-owner</Link></>} />
 
             <div className="w3-content w3-padding">
                 <div className="w3-center w3-padding-large w3-margin-bottom w3-card-4 w3-round-xlarge">

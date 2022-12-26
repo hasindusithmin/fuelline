@@ -3,7 +3,8 @@ import Head from "next/head"
 import Navbar from "../../components/Navbar"
 import Header from "../../components/Header"
 import Footer from "../../components/Footer"
-import { use, useState } from "react"
+import {useState } from "react"
+import Link from "next/link"
 import validator from 'validator';
 
 export default function StationOwner() {
@@ -47,7 +48,7 @@ export default function StationOwner() {
 
             <Navbar />
 
-            <Header where="Login>StationOwner" />
+            <Header where={<><Link href="/">home</Link>➤<Link href="/login">login</Link>➤<Link href="/login/station-owner">station-owner</Link></>} />
 
             <div className="w3-content w3-padding">
                 <div className="w3-center w3-padding-large w3-margin-bottom w3-card-4 w3-round-xlarge">

@@ -18,7 +18,7 @@ export default function SignUP() {
 
             <Navbar />
 
-            <Header where="Signup>" />
+            <Header where={<><Link href="/">home</Link>➤<Link href="/signup">signup</Link></>} />
 
             <div className="w3-content w3-padding">
                 <div className="w3-row w3-center w3-padding w3-margin-bottom w3-card-4 w3-round-xlarge">

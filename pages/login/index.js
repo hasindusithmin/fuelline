@@ -18,7 +18,7 @@ export default function Login() {
 
             <Navbar />
 
-            <Header where="Login>" />
+            <Header where={<><Link href="/">home</Link>➤<Link href="/login">login</Link></>} />
 
             <div className="w3-content w3-padding">
 
