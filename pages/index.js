@@ -44,7 +44,7 @@ export default function Home() {
             <Link href="#" className='w3-button w3-block w3-light-grey w3-round-large w3-xlarge w3-margin-left'>® <span className='w3-tag w3-small'>SIGNUP</span> </Link>
           </div>
           <div className='w3-third w3-center w3-padding'>
-            <Link href="#" className='w3-button w3-block w3-light-grey w3-round-large w3-xlarge w3-margin-left'>➲ <span className='w3-tag w3-small'>LOGIN</span></Link>
+            <Link href="/login" className='w3-button w3-block w3-light-grey w3-round-large w3-xlarge w3-margin-left'>➲ <span className='w3-tag w3-small'>LOGIN</span></Link>
           </div>
           <div className='w3-padding w3-text-white'>...</div>
         </div>

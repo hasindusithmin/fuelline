@@ -1,4 +1,4 @@
-
+import Link from "next/link";
 
 export default function Navbar() {
 
@@ -18,10 +18,10 @@ export default function Navbar() {
                     &#x2716;
                 </a>
                 <div className="w3-bar-block w3-center">
-                    <a href="#" className="w3-bar-item w3-button w3-text-grey w3-hover-black" onClick={closeNav} >Home</a>
-                    <a href="#portfolio" className="w3-bar-item w3-button w3-text-grey w3-hover-black" onClick={closeNav} >Portfolio</a>
-                    <a href="#about" className="w3-bar-item w3-button w3-text-grey w3-hover-black" onClick={closeNav} >About</a>
-                    <a href="#contact" className="w3-bar-item w3-button w3-text-grey w3-hover-black" onClick={closeNav} >Contact</a>
+                    <Link href="/" className="w3-bar-item w3-button w3-text-grey w3-hover-black" onClick={closeNav} >Home</Link>
+                    <Link href="/login" className="w3-bar-item w3-button w3-text-grey w3-hover-black" onClick={closeNav} >Login</Link>
+                    <Link href="#about" className="w3-bar-item w3-button w3-text-grey w3-hover-black" onClick={closeNav} >About</Link>
+                    <Link href="#contact" className="w3-bar-item w3-button w3-text-grey w3-hover-black" onClick={closeNav} >Contact</Link>
                 </div>
             </nav>
             <div className="w3-main w3-padding-large" style={{ marginLeft: '40%' }}>
