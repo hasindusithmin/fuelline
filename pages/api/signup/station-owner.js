@@ -22,9 +22,9 @@ export default async function handler(req,res){
             QUEUE
         } = req.body;
         const user = await StationOwnerModel.create({DEALER,EMAIL,CONTACT,PROVINCE,DISTRICT,LOCATION,ARRIVALTIME,FINISHTIME,DIESEL,PETROL,PASSWORD,QUEUE})
-        const TKN = jwt.sign({user},process.env.JWT_SECRET,{expiresIn:'1h'})
-        setCookie('JWT',TKN,{req,res,maxAge:3600})
-        res.status(200).json(user)
+        const tkn = jwt.sign({user},process.env.JWT_SECRET,{expiresIn:'1h'})
+        setCookie('JWT',tkn,{req,res,maxAge:3600})
+        res.status(200).json({})
     } catch (error) {
         res.status(500).json({ERROR:error.message})
     }

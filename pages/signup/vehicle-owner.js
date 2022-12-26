@@ -63,6 +63,7 @@ export default function VehicleOwner() {
 
     const REGISTER = async()=>{
         try {
+            SETERROR('')
             // VALIDATION START 
             if (FIRSTNAME === '') throw new Error("FIRSTNAME shouldn't empty")
             if (LASTNAME === '') throw new Error("LASTNAME shouldn't empty")
@@ -78,7 +79,7 @@ export default function VehicleOwner() {
             if (!validator.isEmail(EMAIL)) throw new Error("ENTER valid email")
             if (!validator.isStrongPassword(PASSWORD)) throw new Error("ENTER strong password. minLength: 8, minLowercase: 1, minUppercase: 1, minNumbers: 1, minSymbols: 1")
             // VALIDATION END 
-            const res = await fetch('/signup/vehicle-owner',{
+            const res = await fetch('/api/signup/vehicle-owner',{
                 method:'POST',
                 headers:{
                     'Content-Type':'application/json'
@@ -111,7 +112,7 @@ export default function VehicleOwner() {
                     <p>
                         Take the first step towards maximizing the potential of your station or vehicle by signing up as the owner.
                     </p>
-                    {ERROR && <p><b>{ERROR}</b></p>}
+                    {ERROR && <p className="w3-text-red"><b>{ERROR}</b></p>}
                     <div className="w3-padding">
                         <input id="autoComplete" className="w3-input w3-border w3-round-large" type="search" dir="ltr" spellCheck={false} autoCorrect="off" autoComplete="off" autoCapitalize="off" />
                     </div>
@@ -136,19 +137,18 @@ export default function VehicleOwner() {
                     
                     <div className="w3-padding">
                         <select className="w3-select" onInput={e=>setVEHICLE(e.target.value)}>
-                            <option value="" disabled selected>Choose your vehicle type</option>
+                            <option value="">Choose your vehicle type</option>
                             <option value="BIKE">BIKE</option>
                             <option value="3WHEEL">3WHEEL</option>
                             <option value="CAR">CAR</option>
                             <option value="VAN">VAN</option>
                             <option value="LORRY">LORRY</option>
-                            <option value="QUADRICYCLE">QUADRICYCLE</option>
                             <option value="LAND VEHICLE">LAND VEHICLE</option>
                         </select>
                     </div>
                     <div className="w3-padding">
                         <select className="w3-select" onInput={e=>setFUEL(e.target.value)}>
-                            <option value="" disabled selected>Choose your fuel type</option>
+                            <option value="">Choose your fuel type</option>
                             <option value="PETROL">PETROL</option>
                             <option value="DIESEL">DIESEL</option>
                         </select>

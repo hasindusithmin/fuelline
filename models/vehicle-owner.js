@@ -10,8 +10,9 @@ const VehicleOwnerSchema = new Schema({
     LASTNAME: { type: String, required: true },
     EMAIL: { type: String, required: true, unique: true },
     CONTACT: { type: String, required: true, unique: true },
-    VEHICLE: { type: String, enum: ['BIKE', '3WHEEL', 'CAR', 'VAN', 'LORRY', 'QUADRICYCLE', 'LAND VEHICLE'], required: true },
+    VEHICLE: { type: String, enum: ['BIKE', '3WHEEL', 'CAR', 'VAN', 'LORRY', 'LAND VEHICLE'], required: true },
     FUEL: { type: String, enum: ['DIESEL', 'PETROL'], required: true },
+    QTY: { type: Number,required: true },
     PASSWORD: { type: String, required: true }
 })
 
