@@ -80,14 +80,16 @@ export default function StationOwner() {
             if (!validator.isEmail(EMAIL)) throw new Error("ENTER valid email")
             if (!validator.isMobilePhone(CONTACT)) throw new Error("ENTER valid contact")
             if (!validator.isStrongPassword(PASSWORD)) throw new Error("ENTER valid password. minLength: 8, minLowercase: 1, minUppercase: 1, minNumbers: 1, minSymbols: 1")
-            // VALIDATION END 
-            const res = await fetch('/signup/station-owner',{
+            // VALIDATION END
+            // console.log('START'); 
+            const res = await fetch('/api/signup/station-owner',{
                 method:'POST',
                 headers:{
                     'Content-Type':'application/json'
                 },
                 body:JSON.stringify({DEALER,PROVINCE,DISTRICT,LOCATION,EMAIL,CONTACT,ARRIVALTIME,FINISHTIME,DIESEL,PETROL,PASSWORD,QUEUE})
             })
+            // console.log('END'); 
             const data = await res.json()
             if (!res.ok) throw new Error(data['ERROR'])
             console.log(data);

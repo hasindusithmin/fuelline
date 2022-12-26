@@ -1,5 +1,4 @@
-
-import { Schema, model } from "mongoose";
+import mongoose,{ Schema, model } from "mongoose";
 import bcrypt from "bcrypt"
 
 const VehicleSchema = new Schema({
@@ -10,14 +9,14 @@ const VehicleSchema = new Schema({
 })
 
 const StationOwnerSchema = new Schema({
-    DEALER: { type: String, required: true },
-    EMAIL: { type: String, required: true },
-    CONTACT: { type: String, required: true },
+    DEALER: { type: String, required: true,unique:true },
+    EMAIL: { type: String, required: true ,unique:true},
+    CONTACT: { type: String, required: true ,unique:true},
     PROVINCE: { type: String, required: true },
     DISTRICT: { type: String, required: true },
     LOCATION: { type: String, required: true },
-    ARRIVALTIME: { type: String, required: true },
-    FINISHTIME: { type: String, required: true },
+    ARRIVALTIME: { type: String },
+    FINISHTIME: { type: String },
     DIESEL: { type: Number, required: true },
     PETROL: { type: Number, required: true },
     PASSWORD: { type: String, required: true },
@@ -30,6 +29,5 @@ StationOwnerSchema.pre('save', async function (next) {
     next()
 })
 
-const StationOwnerModel = model('station-owner',StationOwnerSchema)
 
-export default StationOwnerModel;
+export default mongoose.models.stationowner || model('stationowner',StationOwnerSchema);
