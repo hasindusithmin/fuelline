@@ -2,8 +2,68 @@ import Head from "next/head"
 import Navbar from "../../components/Navbar"
 import Header from "../../components/Header"
 import Footer from "../../components/Footer"
-
+import stations from "../../public/stations.json"
+import autoComplete from "@tarekraafat/autocomplete.js"
+import { useEffect, useState } from "react"
 export default function VehicleOwner() {
+
+    const [PROVINCE,setPROVINCE] = useState('');
+    const [DISTRICT,setDISTRICT] = useState('');
+    const [LOCATION,setLOCATION] = useState('');
+    const [FIRSTNAME,setFIRSTNAME] = useState('');
+    const [LASTNAME,setLASTNAME] = useState('');
+    const [EMAIL,setEMAIL] = useState('');
+    const [CONTACT,setCONTACT] = useState('');
+    const [VEHICLE,setVEHICLE] = useState('');
+    const [FUEL,setFUEL] = useState('');
+    const [PASSWORD,setPASSWORD] = useState('');
+
+    useEffect(() => {
+        const autoCompleteJS = new autoComplete({
+            selector: "#autoComplete",
+            placeHolder: "Search for Location...",
+            data: {
+                src: new Set([...stations.map(({LOCATION})=>LOCATION)]),
+                cache: true,
+            },
+            resultsList: {
+                element: (list, data) => {
+                    if (!data.results.length) {
+                        // Create "No Results" message element
+                        const message = document.createElement("div");
+                        // Add class to the created element
+                        message.setAttribute("class", "no_result");
+                        // Add message text content
+                        message.innerHTML = `<span>Found No Results for "${data.query}"</span>`;
+                        // Append message element to the results list
+                        list.prepend(message);
+                    }
+                },
+                noResults: true,
+            },
+            resultItem: {
+                highlight: true
+            },
+            events: {
+                input: {
+                    selection: (event) => {
+                        const selection = event.detail.selection.value;
+                        autoCompleteJS.input.value = selection;
+                        const {PROVINCE,DISTRICT,LOCATION} = stations.filter(({LOCATION})=>LOCATION === selection)[0]
+                        setPROVINCE(PROVINCE)
+                        setDISTRICT(DISTRICT)
+                        setLOCATION(LOCATION)
+                    }
+                }
+            }
+        });
+
+    }, [])
+
+    const REGISTER = ()=>{
+        const data = {PROVINCE,DISTRICT,LOCATION,FIRSTNAME,LASTNAME,EMAIL,CONTACT,VEHICLE,FUEL,PASSWORD}
+        console.log(data);
+    }
 
     return (
         <>
@@ -24,29 +84,29 @@ export default function VehicleOwner() {
                         Take the first step towards maximizing the potential of your station or vehicle by signing up as the owner.
                     </p>
                     <div className="w3-padding">
-                        <input type="text" className="w3-input w3-border w3-round-large" placeholder="Enter your first name..." />
+                        <input id="autoComplete" className="w3-input w3-border w3-round-large" type="search" dir="ltr" spellCheck={false} autoCorrect="off" autoComplete="off" autoCapitalize="off" />
                     </div>
                     <div className="w3-padding">
-                        <input type="text" className="w3-input w3-border w3-round-large" placeholder="Enter your last name..." />
+                        <input type="text" className="w3-input w3-border w3-round-large" placeholder="Enter your province..." readOnly value={PROVINCE} />
                     </div>
                     <div className="w3-padding">
-                        <input type="text" className="w3-input w3-border w3-round-large" placeholder="Enter your email..." />
+                        <input type="text" className="w3-input w3-border w3-round-large" placeholder="Enter your district..." readOnly value={DISTRICT}/>
                     </div>
                     <div className="w3-padding">
-                        <input type="text" className="w3-input w3-border w3-round-large" placeholder="Enter your contact number..." />
+                        <input type="text" className="w3-input w3-border w3-round-large" placeholder="Enter your first name..." value={FIRSTNAME} onInput={e=>setFIRSTNAME(e.target.value)} />
                     </div>
                     <div className="w3-padding">
-                        <input type="text" className="w3-input w3-border w3-round-large" placeholder="Enter your province..." />
+                        <input type="text" className="w3-input w3-border w3-round-large" placeholder="Enter your last name..." value={LASTNAME} onInput={e=>setLASTNAME (e.target.value)}/>
                     </div>
                     <div className="w3-padding">
-                        <input type="text" className="w3-input w3-border w3-round-large" placeholder="Enter your district..." />
+                        <input type="text" className="w3-input w3-border w3-round-large" placeholder="Enter your email..." value={EMAIL} onInput={e=>setEMAIL(e.target.value)} />
                     </div>
                     <div className="w3-padding">
-                        <input type="text" className="w3-input w3-border w3-round-large" placeholder="Enter your location..." />
+                        <input type="text" className="w3-input w3-border w3-round-large" placeholder="Enter your contact number..." value={CONTACT} onInput={e=>setCONTACT(e.target.value)}/>
                     </div>
                     
                     <div className="w3-padding">
-                        <select className="w3-select">
+                        <select className="w3-select" onInput={e=>setVEHICLE(e.target.value)}>
                             <option value="" disabled selected>Choose your vehicle type</option>
                             <option value="BIKE">BIKE</option>
                             <option value="3WHEEL">3WHEEL</option>
@@ -58,20 +118,17 @@ export default function VehicleOwner() {
                         </select>
                     </div>
                     <div className="w3-padding">
-                        <select className="w3-select">
+                        <select className="w3-select" onInput={e=>setFUEL(e.target.value)}>
                             <option value="" disabled selected>Choose your fuel type</option>
                             <option value="PETROL">PETROL</option>
                             <option value="DIESEL">DIESEL</option>
                         </select>
                     </div>
                     <div className="w3-padding">
-                        <input type="password" className="w3-input w3-border w3-round-large" placeholder="Enter your password..." />
+                        <input type="password" className="w3-input w3-border w3-round-large" placeholder="Enter your password..." value={PASSWORD} onInput={e=>setPASSWORD(e.target.value)} />
                     </div>
                     <div className="w3-padding">
-                        <input type="password" className="w3-input w3-border w3-round-large" placeholder="confirm password..." />
-                    </div>
-                    <div className="w3-padding">
-                        <button className="w3-button w3-round w3-black">Register</button>
+                        <button className="w3-button w3-round w3-black" onClick={REGISTER}>REGISTER</button>
                     </div>
                 </div>
             </div>
