@@ -1,4 +1,4 @@
-import mongoose,{ Schema, model } from "mongoose";
+import mongoose,{ Schema } from "mongoose";
 import bcrypt from "bcrypt"
 
 const VehicleSchema = new Schema({
@@ -29,5 +29,15 @@ StationOwnerSchema.pre('save', async function (next) {
     next()
 })
 
+StationOwnerSchema.statics.login = async function (EMAIL,PASSWORD) {
+    const USER = await this.findOne({EMAIL})
+    if (USER) {
+        const AUTH = await bcrypt.compare(PASSWORD,USER['PASSWORD'])
+        if (AUTH) return USER;
+        throw Error('INCORRECT password'); 
+    }
+    throw Error('INCORRECT email');
+}
 
-export default mongoose.models.stationowner || model('stationowner',StationOwnerSchema);
+
+export default mongoose.models.stationowner || mongoose.model('stationowner',StationOwnerSchema);
