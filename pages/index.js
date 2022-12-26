@@ -5,7 +5,9 @@ import Header from '../components/Header'
 import { Inter } from '@next/font/google'
 import Link from 'next/link'
 import Footer from '../components/Footer'
-
+import {FaRegistered} from "react-icons/fa"
+import {RiLoginBoxFill} from "react-icons/ri"
+import {HiSearchCircle} from "react-icons/hi"
 const inter = Inter({ subsets: ['latin'] })
 export default function Home() {
 
@@ -38,13 +40,13 @@ export default function Home() {
             <b className='w3-opacity'>Find the nearest petrol queue and login or sign up with just a few clicks.</b>
           </p>
           <div className='w3-third w3-center w3-padding'>
-            <Link href="#" className='w3-button w3-block w3-light-grey w3-round-large w3-xlarge w3-margin-left'>🔍 <span className='w3-tag w3-small'>NEARME</span></Link>
+            <Link href="#" className='w3-button w3-block w3-light-grey w3-round-large w3-xlarge w3-margin-left'> <HiSearchCircle/> <span className='w3-tag  w3-small'> <b>NEARME</b> </span></Link>
           </div>
           <div className='w3-third w3-center w3-padding'>
-            <Link href="#" className='w3-button w3-block w3-light-grey w3-round-large w3-xlarge w3-margin-left'>® <span className='w3-tag w3-small'>SIGNUP</span> </Link>
+            <Link href="/signup" className='w3-button w3-block w3-light-grey w3-round-large w3-xlarge w3-margin-left'> <FaRegistered/> <span className='w3-tag w3-small'><b>SIGNUP</b></span> </Link>
           </div>
           <div className='w3-third w3-center w3-padding'>
-            <Link href="/login" className='w3-button w3-block w3-light-grey w3-round-large w3-xlarge w3-margin-left'>➲ <span className='w3-tag w3-small'>LOGIN</span></Link>
+            <Link href="/login" className='w3-button w3-block w3-light-grey w3-round-large w3-xlarge w3-margin-left'><RiLoginBoxFill /> <span className='w3-tag w3-small'><b>LOGIN</b></span></Link>
           </div>
           <div className='w3-padding w3-text-white'>...</div>
         </div>
