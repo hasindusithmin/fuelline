@@ -18,8 +18,8 @@ export default function Navbar() {
                     &#x2716;
                 </a>
                 <div className="w3-bar-block w3-center">
-                    <Link href="/" className="w3-bar-item w3-button w3-text-grey w3-hover-black" onClick={closeNav} >Home</Link>
-                    <Link href="/login" className="w3-bar-item w3-button w3-text-grey w3-hover-black" onClick={closeNav} >Login</Link>
+                    <Link href="/" className="w3-bar-item w3-button w3-text-grey w3-hover-black" onClick={closeNav} >HOME</Link>
+                    <Link href="/login" className="w3-bar-item w3-button w3-text-grey w3-hover-black" onClick={closeNav} >LOGIN</Link>
                     <Link href="#about" className="w3-bar-item w3-button w3-text-grey w3-hover-black" onClick={closeNav} >About</Link>
                     <Link href="#contact" className="w3-bar-item w3-button w3-text-grey w3-hover-black" onClick={closeNav} >Contact</Link>
                 </div>

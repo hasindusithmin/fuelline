@@ -4,6 +4,7 @@ import Header from "../../components/Header"
 import Navbar from "../../components/Navbar"
 import { TbGasStation } from "react-icons/tb"
 import { FaShuttleVan } from "react-icons/fa"
+import Footer from "../../components/Footer"
 export default function Login() {
 
     return (
@@ -17,9 +18,9 @@ export default function Login() {
 
             <Navbar />
 
-            <div className="w3-content w3-padding">
+            <Header where="Login" />
 
-                <Header where="Login" />
+            <div className="w3-content w3-padding">
 
                 <div className="w3-row w3-center w3-padding w3-margin-bottom w3-card-4 w3-round-xlarge">
                     <p>
@@ -38,6 +39,8 @@ export default function Login() {
                 </div>
 
             </div>
+
+            <Footer />
         </>
     )
 

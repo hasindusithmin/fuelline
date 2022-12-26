@@ -1,7 +1,7 @@
 import Head from "next/head"
 import Navbar from "../../components/Navbar"
 import Header from "../../components/Header"
-
+import Footer from "../../components/Footer"
 export default function VehicleOwner() {
 
     return (
@@ -15,7 +15,26 @@ export default function VehicleOwner() {
 
             <Navbar />
 
-            <Header where="Login/VehicleOwner" />
+            <Header where="Login>VehicleOwner" />
+
+            <div className="w3-content w3-padding">
+                <div className="w3-center w3-padding-large w3-margin-bottom w3-card-4 w3-round-xlarge">
+                    <p>
+                        Experience the benefits of being in the driver's seat as the vehicle owner!
+                    </p>
+                    <div className="w3-padding">
+                        <input type="text" className="w3-input w3-border w3-round-large" placeholder="Enter your email address..." />
+                    </div>
+                    <div className="w3-padding">
+                        <input type="password" className="w3-input w3-border w3-round-large" placeholder="Enter your email password..." />
+                    </div>
+                    <div className="w3-padding">
+                        <button className="w3-button w3-round w3-black">Login</button>
+                    </div>
+                </div>
+            </div>
+
+            <Footer />
         </>
     )
 
