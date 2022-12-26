@@ -5,6 +5,7 @@ import Footer from "../../components/Footer"
 import stations from "../../public/stations.json"
 import autoComplete from "@tarekraafat/autocomplete.js"
 import { useEffect, useState } from "react"
+import validator from "validator"
 export default function VehicleOwner() {
 
     const [PROVINCE,setPROVINCE] = useState('');
@@ -17,7 +18,7 @@ export default function VehicleOwner() {
     const [VEHICLE,setVEHICLE] = useState('');
     const [FUEL,setFUEL] = useState('');
     const [PASSWORD,setPASSWORD] = useState('');
-
+    const [ERROR,SETERROR] = useState('');
     useEffect(() => {
         const autoCompleteJS = new autoComplete({
             selector: "#autoComplete",
@@ -60,9 +61,36 @@ export default function VehicleOwner() {
 
     }, [])
 
-    const REGISTER = ()=>{
-        const data = {PROVINCE,DISTRICT,LOCATION,FIRSTNAME,LASTNAME,EMAIL,CONTACT,VEHICLE,FUEL,PASSWORD}
-        console.log(data);
+    const REGISTER = async()=>{
+        try {
+            // VALIDATION START 
+            if (FIRSTNAME === '') throw new Error("FIRSTNAME shouldn't empty")
+            if (LASTNAME === '') throw new Error("LASTNAME shouldn't empty")
+            if (EMAIL === '') throw new Error("EMAIL shouldn't empty")
+            if (CONTACT === '') throw new Error("CONTACT shouldn't empty")
+            if (VEHICLE === '') throw new Error("VEHICLE shouldn't empty")
+            if (FUEL === '') throw new Error("FUEL shouldn't empty")
+            if (PASSWORD === '') throw new Error("PASSWORD shouldn't empty")
+            if (!validator.isAlpha(FIRSTNAME)) throw new Error("ENTER valid firstname (a-zA-Z)")
+            if (!validator.isAlpha(LASTNAME)) throw new Error("ENTER valid lastname (a-zA-Z)")
+            if (!validator.isEmail(EMAIL)) throw new Error("ENTER valid email")
+            if (!validator.isMobilePhone(CONTACT)) throw new Error("ENTER valid contact")
+            if (!validator.isEmail(EMAIL)) throw new Error("ENTER valid email")
+            if (!validator.isStrongPassword(PASSWORD)) throw new Error("ENTER strong password. minLength: 8, minLowercase: 1, minUppercase: 1, minNumbers: 1, minSymbols: 1")
+            // VALIDATION END 
+            const res = await fetch('/signup/vehicle-owner',{
+                method:'POST',
+                headers:{
+                    'Content-Type':'application/json'
+                },
+                body:JSON.stringify({PROVINCE,DISTRICT,LOCATION,FIRSTNAME,LASTNAME,EMAIL,CONTACT,VEHICLE,FUEL,PASSWORD})
+            })
+            const data = await res.json()
+            if (!res.ok) throw new Error(data['ERROR'])
+            console.log(data);
+        } catch (error) {
+            SETERROR(error.message)
+        }
     }
 
     return (
@@ -83,6 +111,7 @@ export default function VehicleOwner() {
                     <p>
                         Take the first step towards maximizing the potential of your station or vehicle by signing up as the owner.
                     </p>
+                    {ERROR && <p><b>{ERROR}</b></p>}
                     <div className="w3-padding">
                         <input id="autoComplete" className="w3-input w3-border w3-round-large" type="search" dir="ltr" spellCheck={false} autoCorrect="off" autoComplete="off" autoCapitalize="off" />
                     </div>

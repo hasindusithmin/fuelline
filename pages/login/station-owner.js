@@ -55,7 +55,7 @@ export default function StationOwner() {
                         Experience the convenience of managing your station as the owner!
                     </p>
 
-                    {ERROR && <p className="w3-text-red" >{ERROR}</p>}
+                    {ERROR && <p className="w3-text-red" ><b>{ERROR}</b></p>}
 
                     <div className="w3-padding">
                         <input type="text" className="w3-input w3-border w3-round-large" placeholder="Enter your email address..." value={EMAIL} onInput={e=>SETEMAIL(e.target.value)} />
