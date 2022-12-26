@@ -26,7 +26,7 @@ export default function VehicleOwner() {
                         <input type="text" className="w3-input w3-border w3-round-large" placeholder="Enter your email address..." />
                     </div>
                     <div className="w3-padding">
-                        <input type="password" className="w3-input w3-border w3-round-large" placeholder="Enter your email password..." />
+                        <input type="password" className="w3-input w3-border w3-round-large" placeholder="Enter your password..." />
                     </div>
                     <div className="w3-padding">
                         <button className="w3-button w3-round w3-black">Login</button>
