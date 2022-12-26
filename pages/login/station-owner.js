@@ -35,7 +35,7 @@ export default function StationOwner() {
                 </div>
             </div>
 
-            <Footer/>
+            <Footer fixed={true}/>
         </>
     )
 

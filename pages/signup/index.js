@@ -41,7 +41,7 @@ export default function SignUP() {
                 </div>
             </div>
 
-            <Footer />
+            <Footer fixed={true} />
 
         </>
     )

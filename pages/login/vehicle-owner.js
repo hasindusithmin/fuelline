@@ -34,7 +34,7 @@ export default function VehicleOwner() {
                 </div>
             </div>
 
-            <Footer />
+            <Footer fixed={true} />
         </>
     )
 

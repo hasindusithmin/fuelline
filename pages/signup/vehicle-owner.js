@@ -76,6 +76,8 @@ export default function VehicleOwner() {
                 </div>
             </div>
 
+            <Footer />
+
         </>
     )
 
