@@ -40,7 +40,7 @@ export default function Home() {
             <b className='w3-opacity'>Find the nearest petrol queue and login or sign up with just a few clicks.</b>
           </p>
           <div className='w3-third w3-center w3-padding'>
-            <Link href="#" className='w3-button w3-block w3-light-grey w3-round-large w3-xlarge w3-margin-left'> <HiSearchCircle/> <span className='w3-tag  w3-small'> <b>NEARME</b> </span></Link>
+            <Link href="/nearme" className='w3-button w3-block w3-light-grey w3-round-large w3-xlarge w3-margin-left'> <HiSearchCircle/> <span className='w3-tag  w3-small'> <b>NEARME</b> </span></Link>
           </div>
           <div className='w3-third w3-center w3-padding'>
             <Link href="/signup" className='w3-button w3-block w3-light-grey w3-round-large w3-xlarge w3-margin-left'> <FaRegistered/> <span className='w3-tag w3-small'><b>SIGNUP</b></span> </Link>
