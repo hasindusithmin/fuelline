@@ -26,11 +26,16 @@ export default function Queue({ AUTH }) {
 
     const [Queue, setQueue] = useState(null)
     const [Username, setUsername] = useState(null)
+    const [Fuel, setFuel] = useState(null)
+    const [Qty, setQty] = useState(null)
     const [Station, setStation] = useState(null)
+    const [ERROR, setERROR] = useState('')
 
     useEffect(() => {
         setQueue(AUTH['user']['QUEUE'])
-        setQueue(AUTH['user']['FIRSTNAME'] + AUTH['user']['LASTNAME'])
+        setUsername(AUTH['user']['FIRSTNAME'] + AUTH['user']['LASTNAME'])
+        setFuel(AUTH['user']['FUEL'])
+        setQty(AUTH['user']['QTY'])
         fetch(`/api/one/station-owner?id=${AUTH['user']['QUEUE']}`)
             .then(res => res.json())
             .then(data => {
@@ -38,12 +43,48 @@ export default function Queue({ AUTH }) {
             })
     }, [])
 
-    const ExitBefore = async()=>{
-
+    const ExitBefore = async () => {
+        try {
+            setERROR('')
+            const RES = await fetch('/api/exit/before', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ id: Queue, username: Username })
+            })
+            const DATA = await RES.json()
+            if (!RES.ok) throw Error(DATA['ERROR'])
+        } catch (error) {
+            setERROR(error.message)
+            window.scrollTo({
+                top: 0,
+                left: 0,
+                behavior: 'smooth'
+            });
+        }
     }
 
-    const ExitAfter = async()=>{
-
+    const ExitAfter = async () => {
+        try {
+            setERROR('')
+            const RES = await fetch('/api/exit/after', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ id: Queue, username: Username, qty: Qty, fuel: Fuel })
+            })
+            const DATA = await RES.json()
+            if (!RES.ok) throw Error(DATA['ERROR'])
+        } catch (error) {
+            setERROR(error.message)
+            window.scrollTo({
+                top: 0,
+                left: 0,
+                behavior: 'smooth'
+            });
+        }
     }
 
     return (
@@ -65,6 +106,12 @@ export default function Queue({ AUTH }) {
                 Station &&
                 <div className={`w3-content w3-padding ${inter.className}`}>
                     <div className="w3-center w3-padding-large w3-margin-bottom w3-card-4 w3-round-xlarge" key={Station['_id']} >
+
+                        {
+                            ERROR &&
+                            <p className="w3-text-red w3-large">{ERROR}</p>
+                        }
+
                         <span className="w3-tag w3-right">{Station['DISTRICT']}</span>
                         <h3 className="w3-opacity"><b>{Station['DEALER']}</b></h3>
                         <div className="w3-padding">
