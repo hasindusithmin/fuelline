@@ -26,12 +26,36 @@ export default function NearMe({ AUTH, DATA }) {
     }, [])
 
 
-    const Sort = (e)=>{
+    const SortbyDistrict = (e) => {
         const One = []
         const Two = []
         const DIST = e.target.value
         Stations.forEach((elements) => {
             if (elements['DISTRICT'] === DIST) One.push(elements)
+            else Two.push(elements)
+        });
+        const Three = One.concat(Two)
+        setStations(Three)
+    }
+
+    const SortbyLocation = (e) => {
+        const One = []
+        const Two = []
+        const LOC = e.target.value
+        Stations.forEach((elements) => {
+            if (elements['LOCATION'] === LOC) One.push(elements)
+            else Two.push(elements)
+        });
+        const Three = One.concat(Two)
+        setStations(Three)
+    }
+
+    const SortbyProvice = (e) => {
+        const One = []
+        const Two = []
+        const PROV = e.target.value
+        Stations.forEach((elements) => {
+            if (elements['PROVINCE'] === PROV) One.push(elements)
             else Two.push(elements)
         });
         const Three = One.concat(Two)
@@ -55,9 +79,32 @@ export default function NearMe({ AUTH, DATA }) {
                 Stations &&
                 <div className={`w3-content w3-padding ${inter.className}`}>
                     <p>
-                        <select className="w3-select" onInput={Sort}>
+                        <div>Sort By Province</div>
+                        <select className="w3-select" onInput={SortbyProvice}>
                             {
-                                Array.from(new Set(Stations.map(({DISTRICT})=>DISTRICT))).map(E=>(
+                                Array.from(new Set(Stations.map(({ PROVINCE }) => PROVINCE))).map(E => (
+                                    <option value={E} key={E}>{E}</option>
+                                ))
+                            }
+                        </select>
+                    </p>
+
+                    <p>
+                        <div>Sort By District</div>
+                        <select className="w3-select" onInput={SortbyDistrict}>
+                            {
+                                Array.from(new Set(Stations.map(({ DISTRICT }) => DISTRICT))).map(E => (
+                                    <option value={E} key={E}>{E}</option>
+                                ))
+                            }
+                        </select>
+                    </p>
+
+                    <p>
+                        <div>Sort By Location</div>
+                        <select className="w3-select" onInput={SortbyLocation}>
+                            {
+                                Array.from(new Set(Stations.map(({ LOCATION }) => LOCATION))).map(E => (
                                     <option value={E} key={E}>{E}</option>
                                 ))
                             }
@@ -72,7 +119,7 @@ export default function NearMe({ AUTH, DATA }) {
                                     {Station['LOCATION']}, {Station['DISTRICT']}, {Station['PROVINCE']}.
                                 </div>
 
-                                <div className="w3-padding-large w3-center" style={!window.navigator.userAgentData.mobile?{ width: '70%', margin: 'auto' }:{}}>
+                                <div className="w3-padding-large w3-center" style={!window.navigator.userAgentData.mobile ? { width: '70%', margin: 'auto' } : {}}>
                                     <div className="w3-padding w3-card w3-round-large w3-light-grey w3-margin-bottom w3-responsive">
                                         <table className="w3-table w3-bordered">
                                             <caption>Fuel Details</caption>
@@ -121,11 +168,15 @@ export default function NearMe({ AUTH, DATA }) {
                                             <tbody>
                                                 <tr>
                                                     <td>EMAIL</td>
-                                                    <td>{Station['EMAIL']}</td>
+                                                    <td>
+                                                        <Link href={`mailto:${Station['EMAIL']}`} style={{textDecoration:'none'}}>{Station['EMAIL']}</Link>
+                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <td>PHONE</td>
-                                                    <td>{Station['CONTACT']}</td>
+                                                    <td>
+                                                        <Link href={`callto:${Station['CONTACT']}`} style={{textDecoration:'none'}} >{Station['CONTACT']}</Link>
+                                                    </td>
                                                 </tr>
                                             </tbody>
                                         </table>
