@@ -47,7 +47,7 @@ export default function Profile({ AUTH }) {
                                     if (!forbidden.includes(key)) {
                                         return (
                                             <tr key={key}>
-                                                <td>{key}</td>
+                                                <td><b>{key}</b></td>
                                                 <td>{value}</td>
                                             </tr>
                                         )
@@ -56,6 +56,9 @@ export default function Profile({ AUTH }) {
                             }
                         </tbody>
                     </table>
+                    <div className="w3-padding">
+                        <Link href={`/profile/edit/${AUTH['role']}`} className="w3-button w3-block w3-teal">UPDATE</Link>
+                    </div>
                 </div>
             </div>
         </>
