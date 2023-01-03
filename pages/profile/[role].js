@@ -58,7 +58,7 @@ export default function Profile({ AUTH }) {
                         </tbody>
                     </table>
                     {
-                        AUTH['user']['QUEUE'].length > 0 &&
+                        AUTH['role'] === 'station' && AUTH['user']['QUEUE'].length > 0 &&
                         <table className="w3-table-all">
                             <caption><b>QUEUE</b></caption>
                             <thead>

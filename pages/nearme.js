@@ -36,7 +36,7 @@ export default function NearMe({ AUTH, DATA }) {
     useEffect(() => {
         setStations(DATA)
         setAuth(AUTH)
-        setQueue(AUTH['user']['QUEUE'])
+        if (AUTH) setQueue(AUTH['user']['QUEUE'])
     }, [])
 
 
