@@ -22,7 +22,7 @@ export default function StationOwner() {
             if (!validator.isEmail(EMAIL)) throw new Error("Enter valid email")
             if (!validator.isStrongPassword(PASSWORD)) throw new Error("Enter strong password. minLength: 8, minLowercase: 1, minUppercase: 1, minNumbers: 1, minSymbols: 1")
             // END VALIDATION
-            const res = await fetch('/login/station-owner',{
+            const res = await fetch('/api/login/station-owner',{
                 method:'POST',
                 headers:{
                     'Content-Type':'application/json'

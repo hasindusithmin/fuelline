@@ -5,6 +5,7 @@ import Link from "next/link"
 import { useEffect, useState } from "react"
 import { getCookie } from "cookies-next"
 import { useRouter } from "next/router"
+
 export const getServerSideProps = ({ req, res }) => {
     const token = getCookie('JWT', { req, res });
     if (!token) return { props: { AUTH:true } };
