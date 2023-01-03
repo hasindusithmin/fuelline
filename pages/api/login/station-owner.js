@@ -10,6 +10,7 @@ export default async function handler(req,res) {
         const user = await StationOwnerModel.login(EMAIL,PASSWORD)
         const tkn = jwt.sign({user,role:'station'},process.env.JWT_SECRET,{expiresIn:'1h'})
         setCookie('JWT',tkn,{req,res,maxAge:3600})
+        console.log('success');
         res.status(200).json({})
     } catch (error) {
         res.status(500).json({ERROR:error.message})

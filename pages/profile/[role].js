@@ -24,7 +24,7 @@ export default function Profile({ AUTH }) {
         ROUTER.replace('/')
     }
 
-    const forbidden = ['_id', 'PASSWORD', '__v']
+    const forbidden = ['_id', 'PASSWORD', '__v', 'QUEUE']
 
     return (
         <>
@@ -56,6 +56,32 @@ export default function Profile({ AUTH }) {
                             }
                         </tbody>
                     </table>
+                    {
+                        AUTH['user']['QUEUE'].length > 0 &&
+                        <table className="w3-table-all">
+                            <caption><b>QUEUE</b></caption>
+                            <thead>
+                                <tr>
+                                    <th>USERNAME</th>
+                                    <th>VEHICLE</th>
+                                    <th>FUEL</th>
+                                    <th>QTY</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    AUTH['user']['QUEUE'].map(({ _id, USERNAME, VEHICLE, FUEL, QTY }) => (
+                                        <tr key={_id}>
+                                            <td>{USERNAME}</td>
+                                            <td>{VEHICLE}</td>
+                                            <td>{FUEL}</td>
+                                            <td>{QTY}</td>
+                                        </tr>
+                                    ))
+                                }
+                            </tbody>
+                        </table>
+                    }
                     <div className="w3-padding">
                         <Link href={`/profile/edit/${AUTH['role']}`} className="w3-button w3-block w3-teal">UPDATE</Link>
                     </div>

@@ -9,7 +9,7 @@ const VehicleSchema = new Schema({
 })
 
 const StationOwnerSchema = new Schema({
-    DEALER: { type: String, required: true,unique:true },
+    DEALER: { type: String, required: true },
     EMAIL: { type: String, required: true ,unique:true},
     CONTACT: { type: String, required: true ,unique:true},
     PROVINCE: { type: String, required: true },

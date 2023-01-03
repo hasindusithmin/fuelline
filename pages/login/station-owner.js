@@ -29,6 +29,7 @@ export default function StationOwner() {
                 },
                 body:JSON.stringify({EMAIL,PASSWORD})
             })
+            console.log(res.status);
             const data = await res.json()
             if (!res.ok) throw new Error(data['ERROR'])
             window.location.replace('/')
