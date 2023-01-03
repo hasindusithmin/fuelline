@@ -29,7 +29,7 @@ export default function VehicleOwner() {
             })
             const data = await res.json()
             if (!res.ok) throw new Error(data['ERROR'])
-            console.log(data);
+            window.location.replace('/')
         } catch (error) {
             SETERROR(error.message)
         }

@@ -93,7 +93,7 @@ export default function StationOwner() {
             // console.log('END'); 
             const data = await res.json()
             if (!res.ok) throw new Error(data['ERROR'])
-            console.log(data);
+            window.location.replace('/')
         } catch (error) {
             SETERROR(error.message)
         }
