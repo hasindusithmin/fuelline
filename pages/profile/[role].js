@@ -6,7 +6,8 @@ import Link from "next/link";
 export const getServerSideProps = async ({ req, res }) => {
     const token = getCookie('JWT', { req, res });
     if (!token) return { props: { AUTH: false } };
-    const RES = await fetch('http://127.0.0.1:3000/api/verify', {
+    const DOMAIN = (process.env.ENVIROMENT === 'production') ? 'https://fuelline.vercel.app':'http://127.0.0.1:3000'
+    const RES = await fetch(`${DOMAIN}/api/verify`, {
         headers: {
             'Content-Type': 'application/json',
             'token': token
