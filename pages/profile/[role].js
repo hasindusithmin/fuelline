@@ -35,7 +35,7 @@ export default function Profile({ AUTH }) {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <Header where={<><Link href="/">home</Link>➤<Link href="/profile">profile</Link>➤<Link href={`/${AUTH['role']}`}>{AUTH['role']}</Link></>} />
+            <Header where={<><Link href="/">home</Link>➤<Link href="/profile">profile</Link>➤<Link href={`/profile/${AUTH['role']}`}>{AUTH['role']}</Link></>} />
 
             <div className="w3-content w3-padding">
                 <div className="w3-center w3-padding-large w3-margin-bottom w3-card-4 w3-round-xlarge">
