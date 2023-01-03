@@ -28,8 +28,10 @@ export default function EditProfile({ AUTH }) {
 
     const [ISSTATION, setISSTATION] = useState(false);
     const [ISVEHICLE, setISVEHICLE] = useState(false);
+    const [ERROR, setERROR] = useState('')
 
     // COMMONS 
+    const [ID, setID] = useState('')
     const [PROVINCE, setPROVINCE] = useState('');
     const [DISTRICT, setDISTRICT] = useState('');
     const [LOCATION, setLOCATION] = useState('');
@@ -53,7 +55,8 @@ export default function EditProfile({ AUTH }) {
 
 
     useEffect(() => {
-        const { PROVINCE, DISTRICT, LOCATION, EMAIL, CONTACT } = AUTH['user']
+        const { _id, PROVINCE, DISTRICT, LOCATION, EMAIL, CONTACT } = AUTH['user']
+        setID(_id)
         setPROVINCE(PROVINCE)
         setDISTRICT(DISTRICT)
         setLOCATION(LOCATION)
@@ -79,16 +82,42 @@ export default function EditProfile({ AUTH }) {
         }
     }, [])
 
-    const Edit_Vehicle = async()=>{
-        console.log({
-            PROVINCE, DISTRICT, LOCATION, EMAIL, CONTACT,FIRSTNAME, LASTNAME, VEHICLE, FUEL
-        });
+    const Edit_Vehicle = async () => {
+
+        try {
+            setERROR('')
+            const res = await fetch('/api/update/vehicle-owner', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ ID, EMAIL, CONTACT, FIRSTNAME, LASTNAME, VEHICLE, FUEL })
+            })
+            const data = await res.json('')
+            if (!res.ok) throw Error(data['ERROR'])
+            ROUTER.replace(`/profile/${AUTH['role']}`)
+        } catch (error) {
+            setERROR(error.message)
+        }
+
     }
 
-    const Edit_Station = async()=>{
-        console.log({
-            PROVINCE, DISTRICT, LOCATION, EMAIL, CONTACT,DEALER, ARRIVALTIME, FINISHTIME, DIESEL, PETROL
-        });
+    const Edit_Station = async () => {
+        try {
+            setERROR('')
+            const res = await fetch('/api/update/station-owner', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ ID, EMAIL, CONTACT, ARRIVALTIME, FINISHTIME, DIESEL, PETROL })
+            })
+            const data = await res.json('')
+            if (!res.ok) throw Error(data['ERROR'])
+            ROUTER.replace(`/profile/${AUTH['role']}`)
+        } catch (error) {
+            setERROR(error.message)
+        }
     }
 
     return (
@@ -106,7 +135,9 @@ export default function EditProfile({ AUTH }) {
                 ISSTATION &&
                 <div className="w3-content w3-padding">
                     <div className="w3-center w3-padding-large w3-margin-bottom w3-card-4 w3-round-xlarge">
-
+                        {
+                            ERROR && <p className="w3-text-red"><b>{ERROR}</b></p>
+                        }
                         <div className="w3-padding">
                             <input type="text" className="w3-input w3-border w3-round-large" placeholder="Enter your province..." readOnly value={DEALER} />
                         </div>
@@ -150,7 +181,9 @@ export default function EditProfile({ AUTH }) {
                 ISVEHICLE &&
                 <div className="w3-content w3-padding">
                     <div className="w3-center w3-padding-large w3-margin-bottom w3-card-4 w3-round-xlarge">
-
+                        {
+                            ERROR && <p className="w3-text-red"><b>{ERROR}</b></p>
+                        }
                         <div className="w3-padding">
                             <input type="text" className="w3-input w3-border w3-round-large" placeholder="Enter your province..." readOnly value={LOCATION} />
                         </div>
