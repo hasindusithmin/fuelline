@@ -4,15 +4,24 @@ import Header from "../components/Header"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 import { getCookie } from "cookies-next"
-import { useRouter } from "next/router"
 import { Inter } from '@next/font/google'
+
+
 export const getServerSideProps = async ({ req, res }) => {
     const token = getCookie('JWT', { req, res });
     const DOMAIN = (process.env.ENVIROMENT === 'production') ? 'https://fuelline.vercel.app' : 'http://127.0.0.1:3000'
     const RES = await fetch(`${DOMAIN}/api/all/station-owner`)
     const DATA = await RES.json()
     if (!token) return { props: { AUTH: false, DATA } };
-    return { props: { AUTH: true, DATA } };
+    const R = await fetch(`${DOMAIN}/api/verify`, {
+        headers: {
+            'Content-Type': 'application/json',
+            'token': token
+        }
+    })
+    const User = await R.json()
+    if (!R.ok) return { props: { AUTH: false, DATA } };
+    return { props: { AUTH: User, DATA } };
 };
 
 const inter = Inter({ subsets: ['latin'] })
@@ -20,9 +29,12 @@ export default function NearMe({ AUTH, DATA }) {
 
 
     const [Stations, setStations] = useState(null)
+    const [Auth, setAuth] = useState(false)
+    const [ERROR,setERROR] = useState('')
 
     useEffect(() => {
         setStations(DATA)
+        setAuth(AUTH)
     }, [])
 
 
@@ -62,6 +74,29 @@ export default function NearMe({ AUTH, DATA }) {
         setStations(Three)
     }
 
+    const Joined = async (e) => {
+        try {
+            setERROR('')
+            const stationId = e.target.id;
+            const USERNAME = Auth['user']['FIRSTNAME'] + Auth['user']['LASTNAME']
+            const VEHICLE = Auth['user']['VEHICLE']
+            const FUEL = AUTH['user']['FUEL']
+            const QTY = AUTH['user']['QTY']
+            // console.log({stationId,USERNAME,VEHICLE,FUEL,QTY});
+            const res = await fetch(`/api/joined-queue/?id=${stationId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ USERNAME, VEHICLE, FUEL, QTY })
+            })
+            const data = await res.json()
+            if (!res.ok) throw Error(data['ERROR'])
+        } catch (error) {
+            setERROR(error.message)
+        }
+    }
+
     return (
         <>
             <Head>
@@ -78,6 +113,11 @@ export default function NearMe({ AUTH, DATA }) {
             {
                 Stations &&
                 <div className={`w3-content w3-padding ${inter.className}`}>
+                    
+                    {
+                        ERROR && <p className="w3-center w3-text-red">{ERROR}</p>
+                    }
+                    
                     <p>
                         <div>Sort By Province</div>
                         <select className="w3-select" onInput={SortbyProvice}>
@@ -112,7 +152,7 @@ export default function NearMe({ AUTH, DATA }) {
                     </p>
                     {
                         Stations.map((Station) => (
-                            <div className="w3-center w3-padding-large w3-margin-bottom w3-card-4 w3-round-xlarge" key={Station['_id']}>
+                            <div className="w3-center w3-padding-large w3-margin-bottom w3-card-4 w3-round-xlarge" key={Station['_id']} >
                                 <span className="w3-tag w3-right">{Station['DISTRICT']}</span>
                                 <h3 className="w3-opacity"><b>{Station['DEALER']}</b></h3>
                                 <div className="w3-padding">
@@ -169,20 +209,25 @@ export default function NearMe({ AUTH, DATA }) {
                                                 <tr>
                                                     <td>EMAIL</td>
                                                     <td>
-                                                        <Link href={`mailto:${Station['EMAIL']}`} style={{textDecoration:'none'}}>{Station['EMAIL']}</Link>
+                                                        <Link href={`mailto:${Station['EMAIL']}`} style={{ textDecoration: 'none' }}>{Station['EMAIL']}</Link>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td>PHONE</td>
                                                     <td>
-                                                        <Link href={`callto:${Station['CONTACT']}`} style={{textDecoration:'none'}} >{Station['CONTACT']}</Link>
+                                                        <Link href={`callto:${Station['CONTACT']}`} style={{ textDecoration: 'none' }} >{Station['CONTACT']}</Link>
                                                     </td>
                                                 </tr>
                                             </tbody>
                                         </table>
                                     </div>
                                 </div>
-
+                                {
+                                    Auth &&
+                                    <div className="w3-padding">
+                                        <button id={Station['_id']} onClick={Joined} className="w3-button w3-block w3-red">Joined to the queue</button>
+                                    </div>
+                                }
                             </div>
                         ))
                     }
