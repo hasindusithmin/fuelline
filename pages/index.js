@@ -21,9 +21,13 @@ const inter = Inter({ subsets: ['latin'] })
 export default function Home() {
 
   const [USER, SETUSER] = useState(false)
+  const [ROLE,SETROLE] = useState(null)
   const AUTH = useContext(AuthContext)
   useEffect(()=>{
-    if (AUTH && !USER) SETUSER(AUTH)
+    if (AUTH && !USER) {
+      SETUSER(AUTH)
+      SETROLE(AUTH['role'])
+    }
   },[AUTH])
 
   return (
@@ -79,7 +83,7 @@ export default function Home() {
               <Link href="/nearme" className='w3-button w3-block w3-light-grey w3-round-large w3-xlarge w3-margin-left'> <HiSearchCircle /> <span className='w3-tag  w3-small'> <b>NEARME</b> </span></Link>
             </div>
             <div className='w3-third w3-center w3-padding'>
-              <Link href="/profile" className='w3-button w3-block w3-light-grey w3-round-large w3-xlarge w3-margin-left'> <ImProfile /> <span className='w3-tag w3-small'><b>PROFILE</b></span> </Link>
+              <Link href={`/profile/${ROLE}`} className='w3-button w3-block w3-light-grey w3-round-large w3-xlarge w3-margin-left'> <ImProfile /> <span className='w3-tag w3-small'><b>PROFILE</b></span> </Link>
             </div>
             <div className='w3-third w3-center w3-padding'>
               <Link href="/api/logout" className='w3-button w3-block w3-light-grey w3-round-large w3-xlarge w3-margin-left'><IoLogOut /> <span className='w3-tag w3-small'><b>LOGOUT</b></span></Link>
