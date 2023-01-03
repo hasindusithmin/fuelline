@@ -8,7 +8,7 @@ export default async function handler(req,res) {
         await mongoose.connect(process.env.MONGODB_URL)
         const {EMAIL,PASSWORD} = req.body;
         const user = await StationOwnerModel.login(EMAIL,PASSWORD)
-        const tkn = jwt.sign({user},process.env.JWT_SECRET,{expiresIn:'1h'})
+        const tkn = jwt.sign({...user,station_owner:true,vehicle_owner:false},process.env.JWT_SECRET,{expiresIn:'1h'})
         setCookie('JWT',tkn,{req,res,maxAge:3600})
         res.status(200).json({})
     } catch (error) {
