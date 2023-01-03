@@ -30,11 +30,13 @@ export default function NearMe({ AUTH, DATA }) {
 
     const [Stations, setStations] = useState(null)
     const [Auth, setAuth] = useState(false)
-    const [ERROR,setERROR] = useState('')
+    const [Queue, setQueue] = useState('')
+    const [ERROR, setERROR] = useState('')
 
     useEffect(() => {
         setStations(DATA)
         setAuth(AUTH)
+        setQueue(AUTH['user']['QUEUE'])
     }, [])
 
 
@@ -82,25 +84,31 @@ export default function NearMe({ AUTH, DATA }) {
             const VEHICLE = Auth['user']['VEHICLE']
             const FUEL = AUTH['user']['FUEL']
             const QTY = AUTH['user']['QTY']
+            const USER_ID = AUTH['user']['_id']
             // console.log({stationId,USERNAME,VEHICLE,FUEL,QTY});
             const res = await fetch(`/api/joined-queue/?id=${stationId}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ USERNAME, VEHICLE, FUEL, QTY })
+                body: JSON.stringify({ USERNAME, VEHICLE, FUEL, QTY, USER_ID })
             })
             const data = await res.json()
             if (!res.ok) throw Error(data['ERROR'])
         } catch (error) {
             setERROR(error.message)
+            window.scrollTo({
+                top: 100,
+                left: 100,
+                behavior: 'smooth'
+            });
         }
     }
 
     return (
         <>
             <Head>
-                <title>FuelLine | NearMe</title>
+                <title>FuelLine | Nearme</title>
                 <meta name="description" content="managing petrol queues at fuel sheds" />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <link rel="icon" href="/favicon.ico" />
@@ -113,11 +121,18 @@ export default function NearMe({ AUTH, DATA }) {
             {
                 Stations &&
                 <div className={`w3-content w3-padding ${inter.className}`}>
-                    
+
                     {
-                        ERROR && <p className="w3-center w3-text-red">{ERROR}</p>
+                        ERROR && <p className="w3-center w3-large w3-text-red">{ERROR}</p>
                     }
-                    
+
+                    {
+                        Queue &&
+                        <p className="w3-center">
+                            <Link href="/queue" className="w3-button w3-blue">See your queue</Link>
+                        </p>
+                    }
+
                     <p>
                         <div>Sort By Province</div>
                         <select className="w3-select" onInput={SortbyProvice}>
@@ -225,7 +240,9 @@ export default function NearMe({ AUTH, DATA }) {
                                 {
                                     Auth &&
                                     <div className="w3-padding">
-                                        <button id={Station['_id']} onClick={Joined} className="w3-button w3-block w3-red">Joined to the queue</button>
+                                        {
+                                            (Queue === Station['_id']) ? <button className="w3-button w3-block w3-teal">Joined</button> : <button id={Station['_id']} onClick={Joined} className="w3-button w3-block w3-red">Joined to the queue</button>
+                                        }
                                     </div>
                                 }
                             </div>

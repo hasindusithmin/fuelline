@@ -12,20 +12,21 @@ const VehicleOwnerSchema = new Schema({
     CONTACT: { type: String, required: true, unique: true },
     VEHICLE: { type: String, enum: ['BIKE', '3WHEEL', 'CAR', 'VAN', 'LORRY', 'LAND VEHICLE'], required: true },
     FUEL: { type: String, enum: ['DIESEL', 'PETROL'], required: true },
-    QTY: { type: Number,required: true },
+    QTY: { type: Number, required: true },
+    QUEUE: { type: String },
     PASSWORD: { type: String, required: true }
 })
 
-VehicleOwnerSchema.pre('save',async function(next){
+VehicleOwnerSchema.pre('save', async function (next) {
     const salt = await bcrypt.genSalt()
-    this.PASSWORD = await bcrypt.hash(this.PASSWORD,salt)
+    this.PASSWORD = await bcrypt.hash(this.PASSWORD, salt)
     next()
 })
 
-VehicleOwnerSchema.statics.login = async function (EMAIL,PASSWORD) {
-    const USER = await this.findOne({EMAIL})
+VehicleOwnerSchema.statics.login = async function (EMAIL, PASSWORD) {
+    const USER = await this.findOne({ EMAIL })
     if (USER) {
-        const AUTH = await bcrypt.compare(PASSWORD,USER['PASSWORD']);
+        const AUTH = await bcrypt.compare(PASSWORD, USER['PASSWORD']);
         if (AUTH) return USER;
         throw Error("INCORRECT password");
     }
