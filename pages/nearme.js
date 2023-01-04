@@ -9,7 +9,7 @@ import { Inter } from '@next/font/google'
 
 export const getServerSideProps = async ({ req, res }) => {
     const token = getCookie('JWT', { req, res });
-    const DOMAIN = (process.env.ENVIROMENT === 'production') ? 'https://fuelline.vercel.app' : 'http://127.0.0.1:3000'
+    const DOMAIN = (process.env.NEXT_PUBLIC_ENVIROMENT === 'production') ? 'https://fuelline.vercel.app' : 'http://127.0.0.1:3000'
     const RES = await fetch(`${DOMAIN}/api/all/station-owner`)
     const DATA = await RES.json()
     if (!token) return { props: { AUTH: false, DATA } };
@@ -85,13 +85,14 @@ export default function NearMe({ AUTH, DATA }) {
             const FUEL = AUTH['user']['FUEL']
             const QTY = AUTH['user']['QTY']
             const USER_ID = AUTH['user']['_id']
+            const QUEUE = AUTH['user']['QUEUE']
             // console.log({stationId,USERNAME,VEHICLE,FUEL,QTY});
             const res = await fetch(`/api/joined-queue/?id=${stationId}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ USERNAME, VEHICLE, FUEL, QTY, USER_ID })
+                body: JSON.stringify({ USERNAME, VEHICLE, FUEL, QTY, USER_ID,QUEUE })
             })
             const data = await res.json()
             if (!res.ok) throw Error(data['ERROR'])
