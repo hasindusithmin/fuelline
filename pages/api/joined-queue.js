@@ -13,7 +13,7 @@ export default async function handler(req,res) {
         const {USERNAME,VEHICLE,FUEL,QTY,USER_ID,QUEUE} = req.body;
         if (QUEUE !== "") {
             const DOMAIN = (process.env.NEXT_PUBLIC_ENVIROMENT === 'production') ? 'https://fuelline.vercel.app' : 'http://127.0.0.1:3000'
-            await fetch(`${DOMAIN}/api/exit/before`,{
+            await fetch(`${DOMAIN}/api/exits/before`,{
                 method:'POST',
                 headers:{
                     'Content-Type':'application/json'

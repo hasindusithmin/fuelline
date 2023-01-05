@@ -46,7 +46,7 @@ export default function Queue({ AUTH }) {
     const ExitBefore = async () => {
         try {
             setERROR('')
-            const RES = await fetch('/api/exit/before', {
+            const RES = await fetch('/api/exits/before', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -68,7 +68,7 @@ export default function Queue({ AUTH }) {
     const ExitAfter = async () => {
         try {
             setERROR('')
-            const RES = await fetch('/api/exit/after', {
+            const RES = await fetch('/api/exits/after', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

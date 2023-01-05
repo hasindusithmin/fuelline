@@ -1,11 +1,15 @@
 
 import { useRouter } from "next/router"
+import { useEffect } from "react"
 
 
 export default function ProfileEditDefault() {
 
     const ROUTER = useRouter()
-    ROUTER.back()
+    
+    useEffect(()=>{
+        ROUTER.back()
+    },[])
 
     return <></>
 
