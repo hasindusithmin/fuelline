@@ -5,6 +5,7 @@ import Link from "next/link"
 import { getCookie } from "cookies-next"
 import { useEffect, useState } from "react"
 import { Inter } from '@next/font/google'
+import { useRouter } from "next/router"
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -24,8 +25,11 @@ export const getServerSideProps = async ({ req, res }) => {
 
 export default function Queue({ AUTH }) {
 
+    const ROUTER = useRouter()
+
     const [Queue, setQueue] = useState(null)
     const [Username, setUsername] = useState(null)
+    const [userId,setUserId] = useState(null)
     const [Fuel, setFuel] = useState(null)
     const [Qty, setQty] = useState(null)
     const [Station, setStation] = useState(null)
@@ -36,6 +40,7 @@ export default function Queue({ AUTH }) {
         setUsername(AUTH['user']['FIRSTNAME'] + AUTH['user']['LASTNAME'])
         setFuel(AUTH['user']['FUEL'])
         setQty(AUTH['user']['QTY'])
+        setUserId(AUTH['user']['_id'])
         fetch(`/api/one/station-owner?id=${AUTH['user']['QUEUE']}`)
             .then(res => res.json())
             .then(data => {
@@ -51,10 +56,11 @@ export default function Queue({ AUTH }) {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ id: Queue, username: Username })
+                body: JSON.stringify({ id: Queue, username: Username,user_id:userId })
             })
             const DATA = await RES.json()
             if (!RES.ok) throw Error(DATA['ERROR'])
+            ROUTER.back()
         } catch (error) {
             setERROR(error.message)
             window.scrollTo({
@@ -73,7 +79,7 @@ export default function Queue({ AUTH }) {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ id: Queue, username: Username, qty: Qty, fuel: Fuel })
+                body: JSON.stringify({ id: Queue, username: Username, qty: Qty, fuel: Fuel,user_id:userId })
             })
             const DATA = await RES.json()
             if (!RES.ok) throw Error(DATA['ERROR'])
