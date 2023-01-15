@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 export const getServerSideProps = async ({ req, res }) => {
     const token = getCookie('JWT', { req, res });
     if (!token) return { props: { AUTH: false } };
-    const DOMAIN = (process.env.NEXT_PUBLIC_ENVIROMENT === 'production') ? 'https://fuelline.vercel.app':'http://127.0.0.1:3000'
+    const DOMAIN = (process.env.NEXT_PUBLIC_ENVIROMENT === 'production') ? 'https://fuelline.vercel.app' : 'http://127.0.0.1:3000'
     const RES = await fetch(`${DOMAIN}/api/verify`, {
         headers: {
             'Content-Type': 'application/json',
@@ -55,32 +55,88 @@ export default function EditProfile({ AUTH }) {
     const [PETROL, setPETROL] = useState('');
 
 
-    useEffect(() => {
-        const { _id, PROVINCE, DISTRICT, LOCATION, EMAIL, CONTACT } = AUTH['user']
-        setID(_id)
-        setPROVINCE(PROVINCE)
-        setDISTRICT(DISTRICT)
-        setLOCATION(LOCATION)
-        setEMAIL(EMAIL)
-        setCONTACT(CONTACT)
+    // useEffect(() => {
+    //     const { _id, PROVINCE, DISTRICT, LOCATION, EMAIL, CONTACT } = AUTH['user']
+    //     setID(_id)
+    //     setPROVINCE(PROVINCE)
+    //     setDISTRICT(DISTRICT)
+    //     setLOCATION(LOCATION)
+    //     setEMAIL(EMAIL)
+    //     setCONTACT(CONTACT)
 
-        if (AUTH['role'] === 'vehicle') {
-            const { FIRSTNAME, LASTNAME, VEHICLE, FUEL } = AUTH['user']
-            setFIRSTNAME(FIRSTNAME)
-            setLASTNAME(LASTNAME)
-            setVEHICLE(VEHICLE)
-            setFUEL(FUEL)
-            setISVEHICLE(true)
+    //     if (AUTH['role'] === 'vehicle') {
+    //         const { FIRSTNAME, LASTNAME, VEHICLE, FUEL } = AUTH['user']
+    //         setFIRSTNAME(FIRSTNAME)
+    //         setLASTNAME(LASTNAME)
+    //         setVEHICLE(VEHICLE)
+    //         setFUEL(FUEL)
+    //         setISVEHICLE(true)
+    //     }
+    //     if (AUTH['role'] === 'station') {
+    //         const { DEALER, ARRIVALTIME, FINISHTIME, DIESEL, PETROL } = AUTH['user']
+    //         setDEALER(DEALER)
+    //         setARRIVALTIME(ARRIVALTIME)
+    //         setFINISHTIME(FINISHTIME)
+    //         setDIESEL(DIESEL)
+    //         setPETROL(PETROL)
+    //         setISSTATION(true)
+    //     }
+    // }, [])
+
+    useEffect(() => {
+        const { _id } = AUTH['user']
+        const Role = AUTH['role']
+
+        if (Role === 'vehicle') {
+            fetch(`/api/one/vehicle-owner?id=${_id}`)
+                .then(res => res.json())
+                .then(data => {
+                    const { _id, PROVINCE, DISTRICT, LOCATION, EMAIL, CONTACT } = data;
+                    // COMMONS
+                    setID(_id)
+                    setPROVINCE(PROVINCE)
+                    setDISTRICT(DISTRICT)
+                    setLOCATION(LOCATION)
+                    setEMAIL(EMAIL)
+                    setCONTACT(CONTACT)
+                    // UNIQUES 
+                    const { FIRSTNAME, LASTNAME, VEHICLE, FUEL } = data
+                    setFIRSTNAME(FIRSTNAME)
+                    setLASTNAME(LASTNAME)
+                    setVEHICLE(VEHICLE)
+                    setFUEL(FUEL)
+                    setISVEHICLE(true)
+                })
+                .catch(error => {
+                    console.error(error.message);
+                })
         }
-        if (AUTH['role'] === 'station') {
-            const { DEALER, ARRIVALTIME, FINISHTIME, DIESEL, PETROL } = AUTH['user']
-            setDEALER(DEALER)
-            setARRIVALTIME(ARRIVALTIME)
-            setFINISHTIME(FINISHTIME)
-            setDIESEL(DIESEL)
-            setPETROL(PETROL)
-            setISSTATION(true)
+        if (Role === 'station') {
+            fetch(`/api/one/station-owner?id=${_id}`)
+                .then(res => res.json())
+                .then(data => {
+                    const { _id, PROVINCE, DISTRICT, LOCATION, EMAIL, CONTACT } = data;
+                    // COMMONS
+                    setID(_id)
+                    setPROVINCE(PROVINCE)
+                    setDISTRICT(DISTRICT)
+                    setLOCATION(LOCATION)
+                    setEMAIL(EMAIL)
+                    setCONTACT(CONTACT)
+                    // UNIQUES
+                    const { DEALER, ARRIVALTIME, FINISHTIME, DIESEL, PETROL } = data
+                    setDEALER(DEALER)
+                    setARRIVALTIME(ARRIVALTIME)
+                    setFINISHTIME(FINISHTIME)
+                    setDIESEL(DIESEL)
+                    setPETROL(PETROL)
+                    setISSTATION(true)
+                })
+                .catch(error=>{
+                    console.error(error.message);
+                })
         }
+
     }, [])
 
     const Edit_Vehicle = async () => {

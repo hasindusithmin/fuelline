@@ -21,7 +21,7 @@ export default async function handler(req,res) {
                 body:JSON.stringify({id:id,username:USERNAME,})
             })
         }
-        const user = await StationOwnerModel.findOne({_id:id})
+        const user = await StationOwnerModel.findById(id)
         const current = user['QUEUE'].map(({USERNAME})=>USERNAME)
         if (current.includes(USERNAME)) throw Error('already exists')
         user['QUEUE'].push({USERNAME,VEHICLE,FUEL,QTY})

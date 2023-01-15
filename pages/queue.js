@@ -13,14 +13,16 @@ export const getServerSideProps = async ({ req, res }) => {
     const token = getCookie('JWT', { req, res });
     if (!token) return { props: { AUTH: false } };
     const DOMAIN = (process.env.NEXT_PUBLIC_ENVIROMENT === 'production') ? 'https://fuelline.vercel.app' : 'http://127.0.0.1:3000'
+    if (!token) return { props: { AUTH: false } };
     const RES = await fetch(`${DOMAIN}/api/verify`, {
         headers: {
             'Content-Type': 'application/json',
             'token': token
         }
     })
-    const data = await RES.json()
-    return { props: { AUTH: data } };
+    const User = await RES.json()
+    if (!RES.ok) return { props: { AUTH: false } };
+    return { props: { AUTH: User['user']._id } };
 };
 
 export default function Queue({ AUTH }) {
@@ -29,23 +31,34 @@ export default function Queue({ AUTH }) {
 
     const [Queue, setQueue] = useState(null)
     const [Username, setUsername] = useState(null)
-    const [userId,setUserId] = useState(null)
+    const [userId, setUserId] = useState(null)
     const [Fuel, setFuel] = useState(null)
     const [Qty, setQty] = useState(null)
     const [Station, setStation] = useState(null)
     const [ERROR, setERROR] = useState('')
 
     useEffect(() => {
-        setQueue(AUTH['user']['QUEUE'])
-        setUsername(AUTH['user']['FIRSTNAME'] + AUTH['user']['LASTNAME'])
-        setFuel(AUTH['user']['FUEL'])
-        setQty(AUTH['user']['QTY'])
-        setUserId(AUTH['user']['_id'])
-        fetch(`/api/one/station-owner?id=${AUTH['user']['QUEUE']}`)
-            .then(res => res.json())
-            .then(data => {
-                setStation(data)
-            })
+        if (AUTH) {
+            fetch(`/api/one/vehicle-owner?id=${AUTH}`)
+                .then(res => res.json())
+                .then((user) => {
+                    const {_id,QUEUE,FIRSTNAME,LASTNAME,FUEL,QTY} = user;
+                    console.log({_id,QUEUE,FIRSTNAME,LASTNAME,FUEL,QTY});
+                    setQueue(QUEUE)
+                    setUsername(FIRSTNAME + LASTNAME)
+                    setFuel(FUEL)
+                    setQty(QTY)
+                    setUserId(_id)
+                    fetch(`/api/one/station-owner?id=${QUEUE}`)
+                        .then(res => res.json())
+                        .then(data => {
+                            setStation(data)
+                        })
+                })
+                .catch(error => {
+                    console.error(error.message);
+                })
+        }
     }, [])
 
     const ExitBefore = async () => {
@@ -56,7 +69,7 @@ export default function Queue({ AUTH }) {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ id: Queue, username: Username,user_id:userId })
+                body: JSON.stringify({ id: Queue, username: Username, user_id: userId })
             })
             const DATA = await RES.json()
             if (!RES.ok) throw Error(DATA['ERROR'])
@@ -79,10 +92,11 @@ export default function Queue({ AUTH }) {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ id: Queue, username: Username, qty: Qty, fuel: Fuel,user_id:userId })
+                body: JSON.stringify({ id: Queue, username: Username, qty: Qty, fuel: Fuel, user_id: userId })
             })
             const DATA = await RES.json()
             if (!RES.ok) throw Error(DATA['ERROR'])
+            ROUTER.back()
         } catch (error) {
             setERROR(error.message)
             window.scrollTo({
