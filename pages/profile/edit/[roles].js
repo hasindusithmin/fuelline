@@ -183,7 +183,7 @@ export default function EditProfile({ AUTH }) {
                 <title>FuelLine | Edit</title>
                 <meta name="description" content="managing petrol queues at fuel sheds" />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
-                <link rel="icon" href="/favicon.ico" />
+                {AUTH['role'] === 'station'?<link rel="icon" href="/favicon/station-owner.png" />:<link rel="icon" href="/favicon/vehicle-owner.png" />}
             </Head>
 
             <Header where={<><Link href="/">home</Link>➤<Link href="/profile">profile</Link>➤<Link href="/profile/edit">edit</Link>➤<Link href={`/profile/edit/${AUTH['role']}`}>{AUTH['role']}</Link></>} />

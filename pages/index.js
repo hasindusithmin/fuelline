@@ -36,7 +36,7 @@ export default function Home() {
         <title>FuelLine | Home</title>
         <meta name="description" content="managing petrol queues at fuel sheds" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon/home.png" />
       </Head>
 
       <div className="w3-sidebar w3-hide-medium w3-hide-small" style={{ width: '40%' }}>

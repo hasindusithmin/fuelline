@@ -114,7 +114,7 @@ export default function Queue({ AUTH }) {
                 <title>FuelLine | Queue</title>
                 <meta name="description" content="managing petrol queues at fuel sheds" />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
-                <link rel="icon" href="/favicon.ico" />
+                <link rel="icon" href="/favicon/queue.png" />
             </Head>
 
             <Navbar />

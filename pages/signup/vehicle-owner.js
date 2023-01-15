@@ -101,7 +101,7 @@ export default function VehicleOwner() {
                 <title>Signup | VehicleOwner</title>
                 <meta name="description" content="managing petrol queues at fuel sheds" />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
-                <link rel="icon" href="/favicon.ico" />
+                <link rel="icon" href="/favicon/vehicle-owner.png" />
             </Head>
 
             <Navbar />

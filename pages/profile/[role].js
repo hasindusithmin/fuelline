@@ -51,7 +51,7 @@ export default function Profile({ AUTH }) {
                 <title>FuelLine | Profile</title>
                 <meta name="description" content="managing petrol queues at fuel sheds" />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
-                <link rel="icon" href="/favicon.ico" />
+                <link rel="icon" href="/favicon/profile.png" />
             </Head>
 
             <Header where={<><Link href="/">home</Link>➤<Link href="/profile">profile</Link>➤<Link href={`/profile/${AUTH['role']}`}>{AUTH['role']}</Link></>} />

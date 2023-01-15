@@ -3,13 +3,19 @@ import Navbar from "../../components/Navbar"
 import Header from "../../components/Header"
 import Footer from "../../components/Footer"
 import validator from "validator"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Link from "next/link"
 export default function VehicleOwner() {
+    
 
     const [EMAIL,SETEMAIL] = useState('')
     const [PASSWORD,SETPASSWORD] = useState('')
     const [ERROR,SETERROR] = useState('')
+    const [mobile,setMobile] = useState(false)
+
+    useEffect(() => {
+        setMobile(navigator.userAgentData.mobile)
+    }, [])
 
     const LOGIN = async()=>{
         try {
@@ -41,7 +47,7 @@ export default function VehicleOwner() {
                 <title>Login | Vehicle Owner</title>
                 <meta name="description" content="managing petrol queues at fuel sheds" />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
-                <link rel="icon" href="/favicon.ico" />
+                <link rel="icon" href="/favicon/vehicle-owner.png" />
             </Head>
 
             <Navbar />
@@ -68,7 +74,7 @@ export default function VehicleOwner() {
                 </div>
             </div>
 
-            <Footer fixed={true} />
+            {mobile ? <Footer fixed={false}/>:<Footer fixed={true}/>}
         </>
     )
 
