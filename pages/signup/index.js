@@ -5,7 +5,14 @@ import Link from "next/link"
 import { TbGasStation } from "react-icons/tb"
 import { FaShuttleVan } from "react-icons/fa"
 import Footer from "../../components/Footer"
+import { useEffect, useState } from "react"
 export default function SignUP() {
+
+    const [mobile,setMobile] = useState(false)
+
+    useEffect(() => {
+        setMobile(navigator.userAgentData.mobile)
+    }, [])
 
     return (
         <>
@@ -41,7 +48,7 @@ export default function SignUP() {
                 </div>
             </div>
 
-            <Footer fixed={true} />
+            {mobile ? <Footer fixed={false}/>:<Footer fixed={true}/>}
 
         </>
     )

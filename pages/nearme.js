@@ -194,14 +194,14 @@ export default function NearMe({ AUTH }) {
                     {
                         Stations.map((Station) => (
                             <div className="w3-center w3-padding-large w3-margin-bottom w3-card-4 w3-round-xlarge" key={Station['_id']} >
-                                <span className="w3-tag w3-right">{Station['DISTRICT']}</span>
+                                <span className="w3-tag w3-round-large">{Station['DISTRICT']}</span>
                                 <h3 className="w3-opacity"><b>{Station['DEALER']}</b></h3>
                                 <div className="w3-padding">
                                     {Station['LOCATION']}, {Station['DISTRICT']}, {Station['PROVINCE']}.
                                 </div>
 
-                                <div className="w3-padding-large w3-center" style={!window.navigator.userAgentData.mobile ? { width: '70%', margin: 'auto' } : {}}>
-                                    <div className="w3-padding w3-card w3-round-large w3-light-grey w3-margin-bottom w3-responsive">
+                                <div className="w3-padding-large w3-center">
+                                    <div className="w3-card w3-round-large w3-light-grey w3-margin-bottom w3-responsive">
                                         <table className="w3-table w3-bordered">
                                             <caption>Fuel Details</caption>
                                             <thead>
@@ -220,7 +220,7 @@ export default function NearMe({ AUTH }) {
                                     </div>
                                     {
                                         Station['QUEUE'].length > 0 &&
-                                        <div className="w3-padding w3-card w3-round-large w3-sand w3-margin-bottom w3-responsive">
+                                        <div className="w3-card w3-round-large w3-sand w3-margin-bottom w3-responsive">
                                             <table className="w3-table w3-bordered">
                                                 <caption>Vehicle Details</caption>
                                                 <thead>
@@ -243,7 +243,7 @@ export default function NearMe({ AUTH }) {
                                             </table>
                                         </div>
                                     }
-                                    <div className="w3-padding w3-card w3-round-large w3-pale-blue w3-margin-bottom w3-responsive">
+                                    <div className="w3-card w3-round-large w3-pale-blue w3-margin-bottom w3-responsive">
                                         <table className="w3-table w3-bordered">
                                             <caption>Contact Details</caption>
                                             <tbody>

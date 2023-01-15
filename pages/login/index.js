@@ -11,7 +11,6 @@ export default function Login() {
     const [mobile,setMobile] = useState(false)
 
     useEffect(() => {
-        console.log(navigator.userAgentData.mobile);
         setMobile(navigator.userAgentData.mobile)
     }, [])
 
